@@ -1,6 +1,4 @@
-/core-site.xml
-/hdfs-site.xml
 /hdfs02/
+/mapred-site.xml
+/yarn-site.xml
 /org/
-/qqperson
-/test
