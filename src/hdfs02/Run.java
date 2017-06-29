@@ -20,29 +20,32 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 public class Run {
 	public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
 		Configuration conf = new Configuration();
-//		conf.set("fs.default.name", "hdfs://master:8020");
-//		conf.set("yarn.resourcemanager.hostname","master");
+		 conf.set("fs.default.name", "hdfs://master:8020");
+		// conf.set("yarn.resourcemanager.hostname","master");
 		conf.set("mapred.jar", "H:\\jar\\wc.jar");
-		
+
 		Job job = Job.getInstance(conf);
 
 		job.setMapperClass(WcMapper.class);
 		job.setReducerClass(WcReduce.class);
+
+		job.setCombinerClass(WcReduce.class);
+
 		job.setMapOutputKeyClass(Text.class);
 		job.setMapOutputValueClass(IntWritable.class);
 		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(LongWritable.class);
 
-		// job.setNumReduceTasks(20); // 设置Reduce任务个数 
+		// job.setNumReduceTasks(20); // 设置Reduce任务个数
 
 		FileInputFormat.setInputPaths(job, "/user/input/wc");
 		FileOutputFormat.setOutputPath(job, new Path("/user/ouput/wc2"));
 
 		FileSystem fs = FileSystem.get(conf);
-		if(fs.exists(new Path("/user/ouput/wc2"))){
-			fs.delete(new Path("/user/ouput/wc2"),true);
+		if (fs.exists(new Path("/user/ouput/wc2"))) {
+			fs.delete(new Path("/user/ouput/wc2"), true);
 		}
-		
+
 		job.waitForCompletion(true); // 是否等待完成
 
 	}

@@ -19,7 +19,8 @@ public class Run {
 	public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
 		Configuration conf = new Configuration();
 		conf.set("fs.default.name", "hdfs://master:8020");
-		Job job = Job.getInstance();
+		conf.set("mapred.jar", "H:\\jar\\qq.jar");
+		Job job = Job.getInstance(conf);
 
 		job.setJobName("qq");
 		job.setMapperClass(FriendMapper.class);
